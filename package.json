@@ -1,0 +1,29 @@
+{
+  "name": "news-explorer-api",
+  "version": "1.0.0",
+  "description": "Service where users can search for news articles and save them to their profiles.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/judy99/news-explorer-api.git"
+  },
+  "author": "Lia Kurianova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/judy99/news-explorer-api/issues"
+  },
+  "homepage": "https://github.com/judy99/news-explorer-api#readme",
+  "devDependencies": {
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "mongoose": "^5.10.16"
+  }
+}
