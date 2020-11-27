@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "celebrate": "^13.0.4",
+    "express": "^4.17.1",
     "mongoose": "^5.10.16"
   }
 }

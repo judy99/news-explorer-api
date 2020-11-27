@@ -1,9 +1,10 @@
-const http = require('http');
+const express = require('express');
 
-const server = http.createServer((request, response) => {
-  console.log('The response is here!');
-  console.log(request);
-  console.log(response);
-}); // setting up a server
+const app = express();
+// listen to port 3000
+const { PORT = 3000 } = process.env;
 
-server.listen(3000);
+app.listen(PORT, () => {
+  // if everything works fine, the console will show which port the application is listening to
+  console.log(`App listening at port ${PORT}`)
+});
