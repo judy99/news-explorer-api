@@ -1,9 +1,10 @@
 const { celebrate, Joi } = require('celebrate');
 const users = require('express').Router();
+
 const {
   getUser,
   createUser,
-  login,
+  loginUser,
 } = require('../controllers/users.js');
 const auth = require('../middlewares/auth.js');
 
@@ -20,8 +21,9 @@ users.post('/signin', celebrate({
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),
-}), login);
+}), loginUser);
 
 users.get('/users/me', auth, getUser);
+// users.get('/users/me', getUser);
 
 module.exports = users;

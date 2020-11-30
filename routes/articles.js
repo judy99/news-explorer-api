@@ -1,13 +1,13 @@
 const { celebrate, Joi } = require('celebrate');
-const cards = require('express').Router();
+const articles = require('express').Router();
 const {
   getArticles, createArticle, deleteArticleById,
-} = require('../controllers/cards.js');
+} = require('../controllers/articles.js');
 const auth = require('../middlewares/auth.js');
 
-cards.get('/articles', auth, getArticles);
+articles.get('/articles', auth, getArticles);
 
-cards.post('/articles', auth, celebrate({
+articles.post('/articles', auth, celebrate({
   body: Joi.object().keys({
     keyword: Joi.string().required(),
     title: Joi.string().required(),
@@ -19,6 +19,6 @@ cards.post('/articles', auth, celebrate({
 }),
 createArticle);
 
-cards.delete('/articles/articleId', auth, deleteArticleById);
+articles.delete('/articles/articleId', auth, deleteArticleById);
 
 module.exports = articles;

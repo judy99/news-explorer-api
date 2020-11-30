@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const linkValidator = require('../utils/linkValidator');
+const linkValidator = require('../utils/linkValidator');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -54,4 +54,4 @@ const articleSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('card', articleSchema);
+module.exports = mongoose.model('article', articleSchema);
