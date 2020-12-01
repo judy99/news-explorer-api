@@ -46,7 +46,6 @@ const createUser = (req, res, next) => {
             if (!newUser) {
               throw new Error('Can\'t create user.');
             }
-            // return res.status(httpStatusCode.OK).send({ data: newUser });
             return res.status(httpStatusCode.CREATED).send({ data: newUser });
           });
       }

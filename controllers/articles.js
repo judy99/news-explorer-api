@@ -6,7 +6,7 @@ const { NotFoundError } = require('../errors/not-found-err');
 const { AuthError } = require('../errors/auth-err');
 
 const getArticles = (req, res, next) => {
-  Article.find({}).sort({ createdAt: 'descending' })
+  Article.find({ owner: req.user._id }).sort({ createdAt: 'descending' })
     .then((articles) => {
       if (!articles) {
         throw new Error('Can\'t retrieve articles.');
