@@ -30,28 +30,25 @@ const createArticle = (req, res, next) => {
       if (!article) {
         throw new Error('Can\'t create an article.');
       }
-      return res.status(httpStatusCode.OK).send(article);
+      return res.status(httpStatusCode.CREATED).send(article);
     })
     .catch((err) => next(err));
 };
 
 const deleteArticleById = (req, res, next) => {
-  try {
-    const id = mongoose.Types.ObjectId(req.params.id);
-    Article.findByIdAndDelete(id)
-      .then((article) => {
-        if (!article) {
-          throw new NotFoundError('No article with matching ID found.');
-        }
-        if (req.user._id !== String(article.owner)) {
-          throw new AuthError('Not enough permission for this operation.');
-        }
-        return res.status(httpStatusCode.OK).send(article);
-      })
-      .catch((err) => next(err));
-  } catch (e) {
-    throw new BadReqError('Can\'t delete article. Wrong ID format.');
-  }
+  Article.findById(req.params.articleId)
+    .then((article) => {
+      if (!article) {
+        throw new NotFoundError('No article with matching ID found.');
+      }
+      if (req.user._id !== String(article.owner)) {
+        throw new AuthError('Not enough permission for this operation.');
+      }
+      return article._id;
+    })
+    .then((id) => Article.findByIdAndDelete(mongoose.Types.ObjectId(id))
+      .then((article) => res.status(httpStatusCode.OK).send(article)))
+    .catch((err) => next(err));
 };
 
 module.exports = {

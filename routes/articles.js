@@ -13,12 +13,13 @@ articles.post('/articles', auth, celebrate({
     title: Joi.string().required(),
     text: Joi.string().required(),
     date: Joi.string().required(),
+    source: Joi.string().required(),
     link: Joi.string().required().pattern(/^(http:\/\/|https:\/\/)(w{3}\.)?([\w\-\/\(\):;,\?]+\.{1}?[\w\-\/\(\):;,\?]+)+#?$/),
     image: Joi.string().required().pattern(/^(http:\/\/|https:\/\/)(w{3}\.)?([\w\-\/\(\):;,\?]+\.{1}?[\w\-\/\(\):;,\?]+)+#?$/),
   }),
 }),
 createArticle);
 
-articles.delete('/articles/articleId', auth, deleteArticleById);
+articles.delete('/articles/:articleId', auth, deleteArticleById);
 
 module.exports = articles;

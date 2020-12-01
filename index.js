@@ -23,10 +23,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const articlesRoute = require('./routes/articles');
 const usersRoute = require('./routes/users');
 
-console.log('********* server has started *********');
-
 app.use(usersRoute);
 app.use(articlesRoute);
+app.use(requestLogger);
 app.use(errorLogger);
 
 app.use(errors()); // celebrate error handler

@@ -24,6 +24,5 @@ users.post('/signin', celebrate({
 }), loginUser);
 
 users.get('/users/me', auth, getUser);
-// users.get('/users/me', getUser);
 
 module.exports = users;

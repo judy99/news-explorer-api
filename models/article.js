@@ -49,7 +49,7 @@ const articleSchema = new mongoose.Schema({
     type: 'ObjectId',
     required: true,
     // in order to database won't be returned this field by default
-    select: false,
+    // select: false,
   },
 
 });
