@@ -1,4 +1,4 @@
-const { httpStatusCode } = require('../utils/httpCodes');
+const { httpStatusCode } = require('../utils/consts');
 
 module.exports = ((err, req, res, next) => {
   // if an error has no status, display 500

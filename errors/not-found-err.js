@@ -1,7 +1,9 @@
+const { httpStatusCode } = require('../utils/consts');
+
 class NotFoundError extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = 404;
+    this.statusCode = httpStatusCode.NOT_FOUND;
   }
 }
 module.exports = { NotFoundError };

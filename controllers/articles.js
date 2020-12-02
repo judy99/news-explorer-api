@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Article = require('../models/article');
-const { httpStatusCode } = require('../utils/httpCodes');
+const { httpStatusCode } = require('../utils/consts');
 const { BadReqError } = require('../errors/bad-req-err');
 const { NotFoundError } = require('../errors/not-found-err');
 const { AuthError } = require('../errors/auth-err');

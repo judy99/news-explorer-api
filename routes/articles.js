@@ -1,6 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
 const articles = require('express').Router();
-
 const auth = require('../middlewares/auth.js');
 const {
   getArticles,

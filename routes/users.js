@@ -1,6 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
 const users = require('express').Router();
-
 const {
   getUser,
   createUser,

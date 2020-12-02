@@ -1,15 +1,12 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { httpStatusCode } = require('../utils/httpCodes');
-
 const { NotFoundError } = require('../errors/not-found-err');
 const { BadReqError } = require('../errors/bad-req-err');
 const { AuthError } = require('../errors/auth-err');
+const { JWT_KEY, HASH_NUM, httpStatusCode } = require('../utils/consts');
 
-// for dev only
-const JWT_KEY = 'some-secret-key';
-const HASH_NUM = 10;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getUser = (req, res, next) => {
   const { _id } = req.user;
@@ -61,7 +58,9 @@ const loginUser = (req, res, next) => {
         throw new AuthError('Authentication error.Can\'t find user.');
       }
       // create a token
-      const token = jwt.sign({ _id: user._id }, JWT_KEY, { expiresIn: '7d' });
+      // const token = jwt.sign({ _id: user._id }, JWT_KEY, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT_KEY, { expiresIn: '7d' });
+      console.log('NODE_ENV prod: ', process.env.NODE_ENV); // production
       res.status(httpStatusCode.OK).send({ token });
     })
     .catch((err) => next(err));

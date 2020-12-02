@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const {
-  AuthError,
-} = require('../errors/auth-err');
+const { AuthError } = require('../errors/auth-err');
 
 const userSchema = new mongoose.Schema({
   // must be validate against to email schema
