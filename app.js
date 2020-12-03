@@ -9,7 +9,7 @@ const routes = require('./routes/index');
 const { CONNECTION_STRING } = require('./utils/conf');
 
 // production
-// const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config();
 
 const app = express();
 app.use(cors());
@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //
 // app.use(usersRoute);
 // app.use(articlesRoute);
+
 app.use(routes);
 app.use(requestLogger);
 app.use(errorLogger);
