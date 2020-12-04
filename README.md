@@ -3,8 +3,7 @@
 This repository contains a part of API of "News Explorer" project.
 
 Link to the website that hosts API:
-http://news-explorer.students.nomoreparties.site/api
-https://news-explorer.students.nomoreparties.site/api
+http://news-explorer-judy.students.nomoreparties.site/api
 
 ## Routes
 

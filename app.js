@@ -6,6 +6,8 @@ const { errors } = require('celebrate');
 const error = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes/index');
+const helmet = require('helmet');
+const { limiter } = require('./middlewares/limits')
 const { CONNECTION_STRING } = require('./utils/conf');
 
 // production
@@ -13,6 +15,9 @@ const dotenv = require('dotenv').config();
 
 const app = express();
 app.use(cors());
+app.use(helmet());
+app.set('trust proxy', 1);
+app.use(limiter);
 
 // connect to the MongoDB server
 mongoose.connect(CONNECTION_STRING, {
@@ -24,12 +29,6 @@ mongoose.connect(CONNECTION_STRING, {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// const articlesRoute = require('./routes/articles');
-// const usersRoute = require('./routes/users');
-//
-// app.use(usersRoute);
-// app.use(articlesRoute);
 
 app.use(routes);
 app.use(requestLogger);
