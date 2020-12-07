@@ -65,8 +65,8 @@ const loginUser = (req, res, next) => {
         throw new AuthError('Authentication error.Can\'t find user.');
       }
       // create a token
-      // const token = jwt.sign({ _id: user._id }, JWT_KEY, { expiresIn: '7d' });
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT_KEY, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, JWT_KEY, { expiresIn: '7d' });
+      //const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT_KEY, { expiresIn: '7d' });
       res.status(httpStatusCode.OK).send({ token });
     })
     .catch((err) => next(err));

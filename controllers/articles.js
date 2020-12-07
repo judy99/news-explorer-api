@@ -37,13 +37,12 @@ const createArticle = (req, res, next) => {
 
 const deleteArticleById = (req, res, next) => {
   const idToRemove = new mongoose.Types.ObjectId(req.params.articleId);
-
   Article.findById(idToRemove)
     .then((article) => {
       if (!article) {
         throw new NotFoundError('No article with matching ID found.');
       }
-      if (req.user._id !== String(article.owner)) {
+      if (req.user._id !== article.owner.toString()) {
         throw new AuthError('Not enough permission for this operation.');
       }
       return article._id;
