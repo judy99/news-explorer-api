@@ -6,6 +6,7 @@ const {
   createArticle,
   deleteArticleById,
 } = require('../controllers/articles.js');
+const { MONGOOSE_ID_LENGTH } = require('../utils/consts');
 
 articles.get('/articles', auth, getArticles);
 
@@ -24,7 +25,7 @@ createArticle);
 
 articles.delete('/articles/:articleId', auth, celebrate({
   params: Joi.object().keys({
-    articleId: Joi.string().required().hex().length(24),
+    articleId: Joi.string().required().hex().length(MONGOOSE_ID_LENGTH),
   }),
 }), deleteArticleById);
 

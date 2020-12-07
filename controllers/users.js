@@ -4,7 +4,10 @@ const User = require('../models/user');
 const { NotFoundError } = require('../errors/not-found-err');
 const { BadReqError } = require('../errors/bad-req-err');
 const { AuthError } = require('../errors/auth-err');
-const { JWT_KEY, HASH_NUM, httpStatusCode } = require('../utils/consts');
+const { ConflictError } = require('../errors/conflict-err');
+const {
+  JWT_KEY, HASH_NUM, httpStatusCode, MIN_PASS_LENGTH,
+} = require('../utils/consts');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -27,13 +30,17 @@ const createUser = (req, res, next) => {
     password,
   } = req.body;
 
+  if (password.trim().length < MIN_PASS_LENGTH) {
+    throw new BadReqError('Password length should be at least 8.');
+  }
+
   if (!email || !password) {
     throw new BadReqError('Email or password should not be empty.');
   }
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new BadReqError('User with such email exists.');
+        throw new ConflictError('User with such email exists.');
       } else {
         bcrypt.hash(password, HASH_NUM)
           .then((hash) => User.create({
