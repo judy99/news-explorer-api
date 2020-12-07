@@ -1,17 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const error = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes/index');
-const helmet = require('helmet');
-const { limiter } = require('./middlewares/limits')
+const { limiter } = require('./middlewares/limits');
 const { CONNECTION_STRING } = require('./utils/conf');
 
 // production
-const dotenv = require('dotenv').config();
+// const dotenv = require('dotenv').config();
 
 const app = express();
 app.use(cors());

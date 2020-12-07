@@ -60,7 +60,6 @@ const loginUser = (req, res, next) => {
       // create a token
       // const token = jwt.sign({ _id: user._id }, JWT_KEY, { expiresIn: '7d' });
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT_KEY, { expiresIn: '7d' });
-      console.log('NODE_ENV prod: ', process.env.NODE_ENV); // production
       res.status(httpStatusCode.OK).send({ token });
     })
     .catch((err) => next(err));
