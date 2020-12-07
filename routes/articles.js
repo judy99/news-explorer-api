@@ -22,6 +22,10 @@ articles.post('/articles', auth, celebrate({
 }),
 createArticle);
 
-articles.delete('/articles/:articleId', auth, deleteArticleById);
+articles.delete('/articles/:articleId', auth, celebrate({
+  params: Joi.object().keys({
+    articleId: Joi.string().required().hex().length(24),
+  }),
+}), deleteArticleById);
 
 module.exports = articles;

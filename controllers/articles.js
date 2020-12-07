@@ -36,7 +36,9 @@ const createArticle = (req, res, next) => {
 };
 
 const deleteArticleById = (req, res, next) => {
-  Article.findById(req.params.articleId)
+  const idToRemove = new mongoose.Types.ObjectId(req.params.articleId);
+
+  Article.findById(idToRemove)
     .then((article) => {
       if (!article) {
         throw new NotFoundError('No article with matching ID found.');
