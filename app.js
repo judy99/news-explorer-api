@@ -1,17 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const helmet = require('helmet');
+const helmet = require('helmet'); // production
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const error = require('./middlewares/error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes/index');
-const { limiter } = require('./middlewares/limits');
-const { CONNECTION_STRING } = require('./utils/conf');
-
-// production
-// const dotenv = require('dotenv').config();
+const { limiter } = require('./middlewares/limits'); // production
+const { BASE_STR, PORT } = require('./utils/consts');
 
 const app = express();
 app.use(cors());
@@ -20,7 +17,7 @@ app.use(cors());
 // app.use(limiter);
 
 // connect to the MongoDB server
-mongoose.connect(CONNECTION_STRING, {
+mongoose.connect(BASE_STR, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -36,9 +33,5 @@ app.use(errorLogger);
 
 app.use(errors()); // celebrate error handler
 app.use(error); // centralized error handler
-
-const {
-  PORT = 3000,
-} = process.env;
 
 app.listen(PORT);
