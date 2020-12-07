@@ -25,6 +25,10 @@ const articleSchema = new mongoose.Schema({
   source: {
     type: String,
     required: true,
+    validate: {
+      validator: (link) => linkValidator(link),
+      message: (props) => `${props.value} is not a valid link. `,
+    },
   },
 
   link: {

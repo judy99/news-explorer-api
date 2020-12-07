@@ -15,8 +15,7 @@ articles.post('/articles', auth, celebrate({
     title: Joi.string().required(),
     text: Joi.string().required(),
     date: Joi.string().required(),
-    source: Joi.string().required(),
-    /* eslint max-len: ["error", { "code": 130 }] */
+    source: Joi.string().required().pattern(/^(http:\/\/|https:\/\/)(w{3}\.)?([\w\-\/\(\):;,\?]+\.{1}?[\w\-\/\(\):;,\?]+)+#?$/),
     link: Joi.string().required().pattern(/^(http:\/\/|https:\/\/)(w{3}\.)?([\w\-\/\(\):;,\?]+\.{1}?[\w\-\/\(\):;,\?]+)+#?$/),
     image: Joi.string().required().pattern(/^(http:\/\/|https:\/\/)(w{3}\.)?([\w\-\/\(\):;,\?]+\.{1}?[\w\-\/\(\):;,\?]+)+#?$/),
   }),
