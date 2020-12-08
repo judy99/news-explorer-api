@@ -12,9 +12,9 @@ const { BASE_STR, PORT } = require('./utils/consts');
 
 const app = express();
 app.use(cors());
-// app.use(helmet());
-// app.set('trust proxy', 1);
-// app.use(limiter);
+app.use(helmet());
+app.set('trust proxy', 1);
+app.use(limiter);
 
 // connect to the MongoDB server
 mongoose.connect(BASE_STR, {
