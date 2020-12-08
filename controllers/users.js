@@ -9,8 +9,6 @@ const {
   JWT_KEY, HASH_NUM, httpStatusCode, MIN_PASS_LENGTH,
 } = require('../utils/consts');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
-
 const getUser = (req, res, next) => {
   const { _id } = req.user;
   User.findById({ _id })
@@ -37,6 +35,7 @@ const createUser = (req, res, next) => {
   if (!email || !password) {
     throw new BadReqError('Email or password should not be empty.');
   }
+
   User.findOne({ email })
     .then((user) => {
       if (user) {
@@ -50,7 +49,8 @@ const createUser = (req, res, next) => {
             if (!newUser) {
               throw new Error('Can\'t create user.');
             }
-            return res.status(httpStatusCode.CREATED).send({ data: newUser });
+            const { _id: id } = newUser;
+            return res.status(httpStatusCode.CREATED).send({ id, name, email });
           });
       }
     })
@@ -66,7 +66,6 @@ const loginUser = (req, res, next) => {
       }
       // create a token
       const token = jwt.sign({ _id: user._id }, JWT_KEY, { expiresIn: '7d' });
-      //const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT_KEY, { expiresIn: '7d' });
       res.status(httpStatusCode.OK).send({ token });
     })
     .catch((err) => next(err));

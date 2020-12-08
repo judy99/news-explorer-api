@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
   password: {
     required: true,
     type: String,
-    // minlength: 8,
+    minlength: 8,
     // in order to user's password hash won't be returned from the database by default
     select: false,
   },
