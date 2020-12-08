@@ -6,7 +6,7 @@ const { BadReqError } = require('../errors/bad-req-err');
 const { AuthError } = require('../errors/auth-err');
 const { ConflictError } = require('../errors/conflict-err');
 const {
-  JWT_KEY, HASH_NUM, httpStatusCode, MIN_PASS_LENGTH,
+  JWT_KEY, HASH_NUM, MIN_PASS_LENGTH, httpStatusCode, httpMessage,
 } = require('../utils/consts');
 
 const getUser = (req, res, next) => {
@@ -14,7 +14,7 @@ const getUser = (req, res, next) => {
   User.findById({ _id })
     .then((users) => {
       if (!users) {
-        throw new NotFoundError('No user info found');
+        throw new NotFoundError(httpMessage.NOT_FOUND);
       }
       return res.status(httpStatusCode.OK).send(users);
     })
@@ -29,17 +29,18 @@ const createUser = (req, res, next) => {
   } = req.body;
 
   if (password.trim().length < MIN_PASS_LENGTH) {
-    throw new BadReqError('Password length should be at least 8.');
+    // too short password
+    throw new BadReqError(httpMessage.BAD_REQUEST);
   }
 
   if (!email || !password) {
-    throw new BadReqError('Email or password should not be empty.');
+    throw new BadReqError(httpMessage.BAD_REQUEST);
   }
 
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        throw new ConflictError('User with such email exists.');
+        throw new ConflictError(httpMessage.CONFLICT_ERROR);
       } else {
         bcrypt.hash(password, HASH_NUM)
           .then((hash) => User.create({
@@ -47,7 +48,7 @@ const createUser = (req, res, next) => {
           }))
           .then((newUser) => {
             if (!newUser) {
-              throw new Error('Can\'t create user.');
+              throw new Error();
             }
             const { _id: id } = newUser;
             return res.status(httpStatusCode.CREATED).send({ id, name, email });
@@ -62,11 +63,12 @@ const loginUser = (req, res, next) => {
   return User.findUserByCredentials(email, password, next)
     .then((user) => {
       if (!user) {
-        throw new AuthError('Authentication error.Can\'t find user.');
+        // Authentication error.Can\'t find user.'
+        throw new AuthError(httpMessage.AUTH_ERROR);
       }
       // create a token
       const token = jwt.sign({ _id: user._id }, JWT_KEY, { expiresIn: '7d' });
-      res.status(httpStatusCode.OK).send({ token });
+      return res.status(httpStatusCode.OK).send({ token });
     })
     .catch((err) => next(err));
 };

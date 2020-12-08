@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 const Article = require('../models/article');
-const { httpStatusCode } = require('../utils/consts');
+const { httpStatusCode, httpMessage } = require('../utils/consts');
 const { BadReqError } = require('../errors/bad-req-err');
 const { NotFoundError } = require('../errors/not-found-err');
-const { AuthError } = require('../errors/auth-err');
+const { PermissionError } = require('../errors/perm-err');
 
 const getArticles = (req, res, next) => {
   Article.find({ owner: req.user._id }).sort({ createdAt: 'descending' })
     .then((articles) => {
       if (!articles) {
-        throw new Error('Can\'t retrieve articles.');
+        throw new Error(); // database error => 500 Internal Server error
       }
       return res.status(httpStatusCode.OK).send(articles);
     })
@@ -21,14 +21,14 @@ const createArticle = (req, res, next) => {
     keyword, title, text, date, source, link, image,
   } = req.body;
   if (!keyword || !title || !text || !date || !source || !link || !image) {
-    throw new BadReqError('All fields must be filled in.');
+    throw new BadReqError(httpMessage.BAD_REQUEST);
   }
   Article.create({
     keyword, title, text, date, source, link, image, owner: req.user._id,
   })
     .then((article) => {
       if (!article) {
-        throw new Error('Can\'t create an article.');
+        throw new Error(); // database error => 500 Internal Server error
       }
       return res.status(httpStatusCode.CREATED).send(article);
     })
@@ -40,10 +40,10 @@ const deleteArticleById = (req, res, next) => {
   Article.findById(idToRemove)
     .then((article) => {
       if (!article) {
-        throw new NotFoundError('No article with matching ID found.');
+        throw new NotFoundError(httpMessage.NOT_FOUND);
       }
       if (req.user._id !== article.owner.toString()) {
-        throw new AuthError('Not enough permission for this operation.');
+        throw new PermissionError(httpMessage.FORBID_ERROR);
       }
       return article._id;
     })
