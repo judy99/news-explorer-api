@@ -3,11 +3,16 @@ const Article = require('../models/article');
 const { httpStatusCode, httpMessage } = require('../utils/consts');
 const { BadReqError } = require('../errors/bad-req-err');
 const { NotFoundError } = require('../errors/not-found-err');
-const { PermissionError } = require('../errors/perm-err');
+// const { PermissionError } = require('../errors/perm-err');
 
 const getArticles = (req, res, next) => {
-  Article.find({ owner: req.user._id }).sort({ createdAt: 'descending' })
+  // const {
+  //   owner,
+  // } = req.body;
+
+  Article.find({ owner: mongoose.Types.ObjectId(req.params.userId) }).sort({ date: 'descending' })
     .then((articles) => {
+      // console.log(articles);
       if (!articles) {
         throw new Error(); // database error => 500 Internal Server error
       }
@@ -18,13 +23,14 @@ const getArticles = (req, res, next) => {
 
 const createArticle = (req, res, next) => {
   const {
-    keyword, title, text, date, source, link, image,
+    keyword, title, text, date, source, link, image, owner,
   } = req.body;
+  console.log('coming req.body: ', req.body);
   if (!keyword || !title || !text || !date || !source || !link || !image) {
     throw new BadReqError(httpMessage.BAD_REQUEST);
   }
   Article.create({
-    keyword, title, text, date, source, link, image, owner: req.user._id,
+    keyword, title, text, date, source, link, image, owner: mongoose.Types.ObjectId(owner),
   })
     .then((article) => {
       if (!article) {
@@ -42,9 +48,10 @@ const deleteArticleById = (req, res, next) => {
       if (!article) {
         throw new NotFoundError(httpMessage.NOT_FOUND);
       }
-      if (req.user._id !== article.owner.toString()) {
-        throw new PermissionError(httpMessage.FORBID_ERROR);
-      }
+      //
+      // if (req.user._id !== article.owner.toString()) {
+      //   throw new PermissionError(httpMessage.FORBID_ERROR);
+      // }
       return article._id;
     })
     .then((id) => Article.findByIdAndDelete(mongoose.Types.ObjectId(id))

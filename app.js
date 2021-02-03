@@ -34,4 +34,6 @@ app.use(errorLogger);
 app.use(errors()); // celebrate error handler
 app.use(error); // centralized error handler
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`The application is running on port: ${PORT} !`);
+});

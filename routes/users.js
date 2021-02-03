@@ -5,7 +5,7 @@ const {
   createUser,
   loginUser,
 } = require('../controllers/users.js');
-const auth = require('../middlewares/auth.js');
+// const auth = require('../middlewares/auth.js');
 
 users.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -22,6 +22,7 @@ users.post('/signin', celebrate({
   }),
 }), loginUser);
 
-users.get('/users/me', auth, getUser);
+// users.get('/users/me', auth, getUser);
+users.get('/users/me', getUser);
 
 module.exports = users;

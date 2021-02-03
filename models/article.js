@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const linkValidator = require('../utils/linkValidator');
+// const linkValidator = require('../utils/linkValidator');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -25,28 +25,28 @@ const articleSchema = new mongoose.Schema({
   source: {
     type: String,
     required: true,
-    validate: {
-      validator: (link) => linkValidator(link),
-      message: (props) => `${props.value} is not a valid link. `,
-    },
+    // validate: {
+    //   validator: (link) => linkValidator(link),
+    //   message: (props) => `${props.value} is not a valid link. `,
+    // },
   },
 
   link: {
     type: String,
     required: true,
-    validate: {
-      validator: (link) => linkValidator(link),
-      message: (props) => `${props.value} is not a valid link. `,
-    },
+    // validate: {
+    //   validator: (link) => linkValidator(link),
+    //   message: (props) => `${props.value} is not a valid link. `,
+    // },
   },
 
   image: {
     type: String,
     required: true,
-    validate: {
-      validator: (link) => linkValidator(link),
-      message: (props) => `${props.value} is not a valid link. `,
-    },
+    // validate: {
+    //   validator: (link) => linkValidator(link),
+    //   message: (props) => `${props.value} is not a valid link. `,
+    // },
   },
 
   owner: {
